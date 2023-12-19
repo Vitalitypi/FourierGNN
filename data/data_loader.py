@@ -15,8 +15,8 @@ class Dataset_Dhfm(Dataset):
         self.pre_len = pre_len
         self.train_ratio = train_ratio
         self.val_ratio = val_ratio
-        load_data = np.load(root_path)
-        data = load_data.transpose()
+        data = np.load(root_path)['data'][...,0]
+        # data = load_data.transpose()
         if type == '1':
             mms = MinMaxScaler(feature_range=(0, 1))
             data = mms.fit_transform(data)

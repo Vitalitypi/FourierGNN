@@ -11,8 +11,8 @@ from utils.utils import save_model, load_model, evaluate
 
 # main settings can be seen in markdown file (README.md)
 parser = argparse.ArgumentParser(description='fourier graph network for multivariate time series forecasting')
-parser.add_argument('--data', type=str, default='ECG', help='data set')
-parser.add_argument('--feature_size', type=int, default='140', help='feature size')
+parser.add_argument('--data', type=str, default='traffic', help='data set')
+parser.add_argument('--feature_size', type=int, default='170', help='feature size')
 parser.add_argument('--seq_length', type=int, default=12, help='inout length')
 parser.add_argument('--pre_length', type=int, default=12, help='predict length')
 parser.add_argument('--embed_size', type=int, default=128, help='hidden dimensions')
@@ -24,7 +24,7 @@ parser.add_argument('--exponential_decay_step', type=int, default=5)
 parser.add_argument('--validate_freq', type=int, default=1)
 parser.add_argument('--early_stop', type=bool, default=False)
 parser.add_argument('--decay_rate', type=float, default=0.5)
-parser.add_argument('--train_ratio', type=float, default=0.7)
+parser.add_argument('--train_ratio', type=float, default=0.6)
 parser.add_argument('--val_ratio', type=float, default=0.2)
 parser.add_argument('--device', type=str, default='cuda:0', help='device')
 
@@ -41,7 +41,7 @@ if not os.path.exists(result_test_file):
 
 # data set
 data_parser = {
-    'traffic':{'root_path':'data/traffic.npy', 'type':'0'},
+    'traffic':{'root_path':'./data/PEMS08.npz', 'type':'0'},
     'ECG':{'root_path':'data/ECG_data.csv', 'type':'1'},
     'COVID':{'root_path':'data/covid.csv', 'type':'1'},
     'electricity':{'root_path':'data/electricity.csv', 'type':'1'},

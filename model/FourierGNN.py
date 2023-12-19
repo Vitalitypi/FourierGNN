@@ -1,6 +1,8 @@
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
+import argparse
+from torchinfo import summary
 
 class FGN(nn.Module):
     def __init__(self, pre_length, embed_size,
@@ -144,3 +146,25 @@ class FGN(nn.Module):
 
         return x
 
+if __name__ == '__main__':
+    parser = argparse.ArgumentParser(description='fourier graph network for multivariate time series forecasting')
+    parser.add_argument('--data', type=str, default='ECG', help='data set')
+    parser.add_argument('--feature_size', type=int, default='140', help='feature size')
+    parser.add_argument('--seq_length', type=int, default=12, help='inout length')
+    parser.add_argument('--pre_length', type=int, default=12, help='predict length')
+    parser.add_argument('--embed_size', type=int, default=128, help='hidden dimensions')
+    parser.add_argument('--hidden_size', type=int, default=256, help='hidden dimensions')
+    parser.add_argument('--train_epochs', type=int, default=100, help='train epochs')
+    parser.add_argument('--batch_size', type=int, default=32, help='input data batch size')
+    parser.add_argument('--learning_rate', type=float, default=0.00001, help='optimizer learning rate')
+    parser.add_argument('--exponential_decay_step', type=int, default=5)
+    parser.add_argument('--validate_freq', type=int, default=1)
+    parser.add_argument('--early_stop', type=bool, default=False)
+    parser.add_argument('--decay_rate', type=float, default=0.5)
+    parser.add_argument('--train_ratio', type=float, default=0.7)
+    parser.add_argument('--val_ratio', type=float, default=0.2)
+    parser.add_argument('--device', type=str, default='cuda:0', help='device')
+
+    args = parser.parse_args()
+    model = FGN(pre_length=args.pre_length, embed_size=args.embed_size, feature_size=args.feature_size, seq_length=args.seq_length, hidden_size=args.hidden_size)
+    summary(model, [args.batch_size, args.seq_length, args.feature_size])
